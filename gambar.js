@@ -64,16 +64,9 @@ const charmsData =
     
 
     // --- KATEGORI: PREMIUM (PRE) ---
-    { "sku": "pre-love-me", "category": "Premium", "name": "pre-Love Me", "url": "https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/0c318d7f31b94374aceb3bc66873903c~tplv-aphluv4xwc-origin-jpeg.jpeg" },
-    { "sku": "pre-cupid", "category": "Premium", "name": "pre-Cupid", "url": "https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/b740b0391fdf463db3c5a6ef68a40703~tplv-aphluv4xwc-origin-jpeg.jpeg" },
-    { "sku": "pre-2cm-love", "category": "Premium", "name": "pre-2 cm Love", "url": "https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/af546da122fd4cc28f2513e6eda3b2b5~tplv-aphluv4xwc-origin-jpeg.jpeg" },
-    { "sku": "pre-sarcastic", "category": "Premium", "name": "pre-Sarcastic", "url": "https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/8179667bd3f94b1da60ab660b1d648b2~tplv-aphluv4xwc-origin-jpeg.jpeg" },
-    { "sku": "pre-best-friend", "category": "Premium", "name": "pre-sepasang Best-Friend", "url": "https://cf.shopee.co.id/file/id-11134207-8224o-mkjobbrgwmwx0e_tn" },
-    { "sku": "pre-pink-bmw", "category": "Premium", "name": "pre-pink beemwe", "url": "https://cf.shopee.co.id/file/id-11134207-8224p-mgm30ajfjdvv2f_tn" },
-    { "sku": "pre-porsche-silver", "category": "Premium", "name": "pre-Porsche Silver", "url": "https://cf.shopee.co.id/file/id-11134207-81ztc-meaxuk7wj7d22e_tn" },
-    { "sku": "pre-bmw", "category": "Premium", "name": "pre-BMW", "url": "https://cf.shopee.co.id/file/id-11134207-81zte-meaxupsjbcox26_tn" },
-    { "sku": "pre-ferrari-shield", "category": "Premium", "name": "pre-Ferrari Shield", "url": "https://cf.shopee.co.id/file/id-11134207-81zth-meaxuyamzchw15_tn" },
-    { "sku": "pre-2cm-favorite", "category": "Premium", "name": "pre-2 cm Favorite", "url": "https://cf.shopee.co.id/file/id-11134207-81ztk-meaxxzgl5t6o5e_tn" },
+    { "sku": "Premium-BMW", "category": "Premium", "name": "BMW", "url": "Gambar/Premium/pre-BMW.png" },
+     {"sku": "Premium-Pink BMW", "category": "Premium", "name": "BMW", "url": "Gambar/Premium/pre-pink BMW.png" },
+    
 
     // --- KATEGORI: RESIN ---
     // RABBIT
