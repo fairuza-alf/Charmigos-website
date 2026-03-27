@@ -136,14 +136,11 @@
             transform: translateY(-2px);
         }
 
-        /* RESPONSIVE HEADER UNTUK HP */
         /* RESPONSIVE UNTUK HP */
         @media (max-width: 768px) {
             .main-header {
-                /* Dibiarkan flex-row (menyamping), jangan pakai flex-direction: column */
                 padding: 10px 15px; 
             }
-            /* Biarkan logo tetap mengambang persis di tengah layar */
             .header-center {
                 position: absolute;
                 left: 50%;
@@ -151,16 +148,16 @@
                 margin: 0;
             }
             .header-center img {
-                height: 20px; /* LOGO DIKECILKAN KHUSUS UNTUK HP */
+                height: 20px; 
             }
             .nav-divider, .message-text { display: none; }
             
             .header-left, .header-right {
-                flex-wrap: nowrap; /* Jangan turun ke bawah */
-                gap: 5px; /* Jarak dirapatkan */
+                flex-wrap: nowrap; 
+                gap: 5px; 
             }
             .nav-link {
-                font-size: 10px; /* Sedikit dinaikkan agar jari mudah nge-klik */
+                font-size: 10px; 
                 padding: 4px;
             }
             .social-icons {
@@ -169,7 +166,7 @@
             }
             
             .social-icons a {
-                font-size: 14px; /* Ikon dikecilkan tapi tetap bisa di-tap */
+                font-size: 14px; 
             }
         }
         /* --- POPUP FAQ (MODAL SLIDER) --- */
@@ -209,11 +206,24 @@
         .active-dot, .dot:hover { background-color: var(--maroon); }
 
         /* --- LAYOUT APLIKASI --- */
-        h1 { text-align: center; font-size: 24px; margin-top: 100px; /* Ditambah margin agar tidak tertutup header */ margin-bottom: 0; }
+        h1 { text-align: center; font-size: 28px; margin-top: 100px; margin-bottom: 5px; font-family: 'Garamond', 'Georgia', serif; color: var(--maroon); }
+        
+        /* GAYA DISCLAIMER BARU */
+        .beta-disclaimer {
+            text-align: center;
+            font-size: 14px;
+            font-style: italic;
+            color: var(--dark-maroon);
+            opacity: 0.8;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-family: 'Garamond', 'Georgia', serif;
+            padding: 0 15px;
+        }
 
         .app-container {
             display: flex; flex-direction: column; gap: 20px; width: 100%;
-            max-width: 1200px; margin-top: 20px; align-items: center; padding: 0 20px 40px 20px;
+            max-width: 1200px; margin-top: 10px; align-items: center; padding: 0 20px 40px 20px;
         }
 
         .setup-container { display: flex; gap: 15px; flex-wrap: wrap; width: 100%; justify-content: center; }
@@ -482,7 +492,8 @@
         .hint { font-style: italic; color: #777; font-size: 13px; margin-top: 5px; text-align: center; }
 
         @media (max-width: 768px) {
-            h1 { font-size: 20px; margin-top: 120px;}
+            h1 { font-size: 22px; margin-top: 120px;}
+            .beta-disclaimer { font-size: 12px; }
             .preview-area { padding: 15px; }
             .dropzone, .charm-item { height: 45px; } 
         }
@@ -539,7 +550,9 @@
         </div>
     </div>
 
+    <!-- JUDUL DAN DISCLAIMER -->
     <h1>Italian Charm Customizer</h1>
+    <p class="beta-disclaimer">✨ Website masih dalam tahap pengembangan. Koleksi charm akan terus ditambahkan secara berkala.</p>
 
     <div class="app-container">
        <!-- PENGATURAN GELANG KLASIK -->
