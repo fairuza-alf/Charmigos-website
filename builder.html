@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Custom Italian Charm Builder</title>
+
+    <!-- TAMBAHKAN BARIS INI UNTUK IKON SOSMED -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <style>
+        :root {
+            --maroon: #800000; --cream: #fdf5e6;
+            --dark-maroon: #4d0000; --gold: #d4af37;
+            --red-header: #800000;
+        }
+
+        * { box-sizing: border-box; }
+
+        body { 
+            font-family: 'Georgia', serif; 
+            
+            /* --- INI KODE UNTUK BACKGROUND GAMBAR --- */
+            background-image: url("Gambar/Background web.png");
+            background-size: cover;       
+            background-position: center;  
+            background-attachment: fixed; 
+            background-color: var(--cream); 
+            /* ---------------------------------------- */
+
+            color: var(--dark-maroon); 
+            margin: 0;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        /* ========================================= */
+        /* --- HEADER KLASIK & ELEGAN (DISAMAKAN) --- */
+        /* ========================================= */
+        .main-header {
+            background-color: var(--maroon);
+            color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            width: 100%;
+            position: fixed; /* Fixed agar saat scroll tetap di atas */
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.073);
+            font-family: 'Garamond', 'Georgia', serif;
+        }
+
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Memaksa Logo Berada Persis di Tengah Layar */
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .header-center img {
+            height: 55px;
+            width: auto;
+            border-radius: 0 !important;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .header-center img:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Navigasi Terpisah Desainnya --- */
+        .nav-link {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 15px;
+            letter-spacing: 1px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(253, 245, 230, 0.15);
+            color: white;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 20px;
+            background-color: rgba(253, 245, 230, 0.4);
+            margin: 0 5px;
+        }
+
+        /* --- Ikon Sosial Media & Teks --- */
+        .message-text {
+            font-family: 'Garamond', 'Georgia', serif;
+            font-size: 14px;
+            font-style: italic;
+            color: var(--cream);
+            opacity: 0.9;
+            margin-right: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .social-icons a {
+            color: var(--cream);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* RESPONSIVE HEADER UNTUK HP */
+        /* RESPONSIVE UNTUK HP */
+        @media (max-width: 768px) {
+            .main-header {
+                /* Dibiarkan flex-row (menyamping), jangan pakai flex-direction: column */
+                padding: 10px 15px; 
+            }
+            /* Biarkan logo tetap mengambang persis di tengah layar */
+            .header-center {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                margin: 0;
+            }
+            .header-center img {
+                height: 20px; /* LOGO DIKECILKAN KHUSUS UNTUK HP */
+            }
+            .nav-divider, .message-text { display: none; }
+            
+            .header-left, .header-right {
+                flex-wrap: nowrap; /* Jangan turun ke bawah */
+                gap: 5px; /* Jarak dirapatkan */
+            }
+            .nav-link {
+                font-size: 10px; /* Sedikit dinaikkan agar jari mudah nge-klik */
+                padding: 4px;
+            }
+            .social-icons {
+                gap: 5px;
+                margin-right: 0;
+            }
+            
+            .social-icons a {
+                font-size: 14px; /* Ikon dikecilkan tapi tetap bisa di-tap */
+            }
+        }
+        /* --- POPUP FAQ (MODAL SLIDER) --- */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.7);
+            justify-content: center; align-items: center;
+        }
+        .modal-content {
+            position: relative; background: white; padding: 20px; border-radius: 15px;
+            max-width: 90%; width: 400px; display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .close-btn {
+            position: absolute; top: -15px; right: -15px; background: var(--maroon); color: white;
+            width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 20px; font-weight: bold; cursor: pointer; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+        .close-btn:hover { background: #4d0000; }
+
+        .slider-container { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .slides { display: flex; transition: transform 0.4s ease-in-out; width: 100%; }
+        .slide { min-width: 100%; display: flex; justify-content: center; }
+        .slide img { max-width: 100%; max-height: 60vh; object-fit: contain; border-radius: 10px; }
+        
+        .prev, .next {
+            cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%);
+            width: auto; padding: 10px; color: var(--maroon); font-weight: bold; font-size: 24px;
+            background: rgba(255,255,255,0.8); border-radius: 50%; user-select: none; border: 1px solid var(--maroon);
+        }
+        .next { right: 5px; } .prev { left: 5px; }
+        .prev:hover, .next:hover { background-color: var(--maroon); color: white; }
+
+        .dots-container { text-align: center; margin-top: 10px; }
+        .dot { cursor: pointer; height: 10px; width: 10px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; transition: 0.3s; }
+        .active-dot, .dot:hover { background-color: var(--maroon); }
+
+        /* --- LAYOUT APLIKASI --- */
+        h1 { text-align: center; font-size: 24px; margin-top: 100px; /* Ditambah margin agar tidak tertutup header */ margin-bottom: 0; }
+
+        .app-container {
+            display: flex; flex-direction: column; gap: 20px; width: 100%;
+            max-width: 1200px; margin-top: 20px; align-items: center; padding: 0 20px 40px 20px;
+        }
+
+        .setup-container { display: flex; gap: 15px; flex-wrap: wrap; width: 100%; justify-content: center; }
+        .setup-box { background: white; padding: 20px; border-radius: 15px; border: 2px solid var(--maroon); display: flex; gap: 10px; align-items: center; flex: 1; min-width: 250px; justify-content: center; flex-wrap: wrap; }
+
+        /* --- GAYA PENGATURAN GELANG KLASIK --- */
+    
+        .setup-classic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-family: 'Garamond', 'Georgia', serif;
+            color: var(--dark-maroon);
+            margin-bottom: 10px;
+            
+            /* --- TAMBAHAN LATAR BELAKANG PUTIH --- */
+            background-color: white;
+            padding: 15px 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        }
+
+        .setup-classic label {
+            font-size: 16px;
+        }
+
+        .setup-classic input[type="number"] {
+            width: 60px;
+            padding: 5px 10px;
+            font-family: 'Garamond', 'Georgia', serif;
+            font-size: 16px;
+            border: 1px solid var(--maroon);
+            border-radius: 8px;
+            text-align: center;
+            background-color: whitesmoke;
+            color: var(--dark-maroon);
+            outline: none;
+        }
+
+        .setup-classic .btn-classic {
+            background-color: var(--maroon);
+            color: var(--cream);
+            border: 1px solid var(--maroon);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-family: 'Garamond', 'Georgia', serif;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .setup-classic .btn-classic:hover {
+            background-color: rgba(128, 0, 0, 0.05);
+            color: var(--maroon);
+        }
+
+        .setup-classic .divider {
+            color: rgba(128, 0, 0, 0.3);
+            font-size: 18px;
+        }
+
+        .setup-classic .charm-count {
+            font-size: 16px;
+            font-style: italic;
+            font-weight: bold;
+        }
+        /* --- KOTAK PREVIEW BRACELET (DENGAN GAMBAR BOARD) --- */
+        .preview-area { 
+            background: transparent; 
+            border: none; 
+
+            background-image: url("Gambar/board.png");
+            background-size: 100% 100%; 
+            background-repeat: no-repeat;
+            background-position: center;
+
+            padding: 45px 30px; 
+            
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            width: 100%; 
+
+            font-family: 'Garamond', 'Georgia', serif;
+            color: var(--maroon);
+            font-weight: bold;
+            margin-top: 0;
+        }
+        #braceletBase { 
+            display: flex; flex-wrap: nowrap; align-items: center; gap: 0px; margin-top: 20px; margin-bottom: 10px; padding: 15px;  overflow-x: auto; -webkit-overflow-scrolling: touch; 
+        }
+        .dropzone:first-child { margin-left: auto; }
+        .dropzone:last-child { margin-right: auto; }
+        #braceletBase::-webkit-scrollbar { height: 8px; }
+        #braceletBase::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+        #braceletBase::-webkit-scrollbar-track { background: var(--cream); border-radius: 4px; }
+
+        .dropzone { display: block; height: 55px; width: auto; min-width: 30px; border: none; border-radius: 0px; object-fit: contain; cursor: pointer; transition: 0.3s; -webkit-user-drag: none; flex-shrink: 0; }
+        .dropzone.drag-hover { transform: scale(1.1); filter: drop-shadow(0 0 5px var(--gold)); z-index: 10;}
+
+        .selection-area { text-align: center; width: 100%; margin-top: 10px; }
+        select { padding: 8px 15px; border-radius: 8px; border: 2px solid var(--maroon); font-size: 15px; font-weight: bold; color: var(--dark-maroon); cursor: pointer; max-width: 100%; }
+       /* --- KOTAK SELECTION CHARM (SOLID CREAM) --- */
+        #charmOptions { 
+            display: flex; 
+            gap: 10px; 
+            justify-content: center; 
+            margin-top: 15px; 
+            flex-wrap: wrap; 
+            min-height: 70px; 
+            padding: 15px; 
+            
+            background-color: #ffffff;
+            
+            border-radius: 10px; 
+            border: 2px solid var(--maroon); 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* --- INDIVIDUAL CHARM (TRANSPARAN) --- */
+        .charm-item { 
+            display: block; 
+            height: 55px; 
+            width: auto; 
+            cursor: grab; 
+            touch-action: none; 
+            border-radius: 0px; 
+            border: none; 
+            object-fit: contain; 
+            background: transparent; 
+            transition: 0.2s; 
+            -webkit-user-drag: none; 
+        }
+
+        .charm-item:hover { transform: scale(1.1); z-index: 5;}
+        
+        .charm-item.selected-charm { 
+            outline: none; 
+            filter: drop-shadow(0 0 5px var(--maroon)); 
+        }
+        
+        /* --- TAMBAHAN UNTUK NAMA CHARM DAN OUT OF STOCK --- */
+        .charm-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 85px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .charm-name-label {
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.2;
+            color: var(--dark-maroon);
+            margin-top: 5px;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .oos-label {
+            font-size: 10px;
+            color: maroon;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2px 4px;
+            border-radius: 4px;
+            margin-top: 2px;
+            text-align: center;
+        }
+        /* --- GAYA FILTER & PENCARIAN KLASIK --- */
+        .filter-search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-family: 'Garamond', 'Georgia', serif; 
+        }
+        
+        /* Kotak Pencarian Samar */
+        .search-box input {
+            width: 280px;
+            padding: 8px 12px;
+            font-family: 'Garamond', 'Georgia', serif;
+            font-size: 16px;
+            color: var(--dark-maroon);
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid var(--maroon); 
+            outline: none;
+            text-align: center;
+            font-weight: normal; 
+        }
+        .search-box input::placeholder {
+            color: rgba(128, 0, 0, 0.4);
+            font-style: italic;
+        }
+
+        /* Tombol Kategori Klasik */
+        .category-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .cat-btn {
+            background-color: transparent;
+            color: var(--maroon);
+            border: 1px solid var(--maroon);
+            padding: 6px 18px;
+            border-radius: 20px; 
+            font-family: 'Garamond', 'Georgia', serif;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: normal; 
+        }
+        .cat-btn:hover {
+            background-color: rgba(128, 0, 0, 0.05);
+        }
+        .cat-btn.active {
+            background-color: var(--maroon);
+            color: var(--cream);
+            border: 1px solid var(--maroon);
+        }
+
+        /* --- LAYOUT BAWAH (DAFTAR BELANJA & CATATAN) --- */
+        .bottom-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            flex-wrap: wrap; 
+            justify-content: center;
+        }
+
+        .cart-section, .note-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid var(--maroon);
+            box-shadow: 0 5px 15px rgba(128, 0, 0, 0.1);
+            flex: 1; 
+            min-width: 300px; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-section h3, .note-section h3 { margin-top: 0; border-bottom: 2px solid var(--cream); padding-bottom: 10px; text-align: center; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; border-bottom: 1px dashed #eee; padding-bottom: 5px;}
+        .cart-total { font-size: 20px; font-weight: bold; color: var(--maroon); margin-top: 20px; text-align: right; }
+        
+        .checkout-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
+        .checkout-links a { text-align: center; text-decoration: none; font-size: 14px; padding: 12px 25px;}
+
+        input[type="number"] { padding: 10px; border: 2px solid var(--maroon); border-radius: 8px; width: 60px; font-size: 16px; text-align: center;}
+        .btn { background: var(--maroon); color: var(--cream); border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 12px; }
+        .btn:hover { background: var(--dark-maroon); }
+        .btn-gold { background: var(--gold); color: white; }
+        .btn-gold:hover { background: #b8962d; }
+        #fileInput { display: none; }
+        .hint { font-style: italic; color: #777; font-size: 13px; margin-top: 5px; text-align: center; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 20px; margin-top: 120px;}
+            .preview-area { padding: 15px; }
+            .dropzone, .charm-item { height: 45px; } 
+        }
+    </style> 
+</head>
+<body>
+
+    <!-- HEADER YANG SUDAH DISAMAKAN DENGAN HOME -->
+    <header class="main-header">
+        <div class="header-left">
+            <a href="home.html" class="nav-link">Home</a>
+            <span class="nav-divider"></span>
+            <!-- Tambahkan class 'active' di Builder karena kita sedang di halaman Builder -->
+            <a href="builder.html" class="nav-link active">Custom Charm Bracelet</a>
+        </div>
+        
+        <div class="header-center">
+            <img src="Gambar/logo kotak.png" alt="Logo Charmigos" onclick="window.location.href='home.html'">
+        </div>
+        
+        <div class="header-right">
+            <span class="message-text">Message us if you have any questions:</span>
+            <div class="social-icons">
+                <a href="https://instagram.com/charmigos.id" target="_blank" title="Instagram"><span class="iconify" data-icon="mdi:instagram"></span></a>
+                <a href="https://tiktok.com/charmigos" target="_blank" title="TikTok"><span class="iconify" data-icon="ic:baseline-tiktok"></span></a>
+                <a href="https://shopee.co.id/charmigos" target="_blank" title="Shopee"><span class="iconify" data-icon="simple-icons:shopee"></span></a>
+            </div>
+            <span class="nav-divider"></span>
+            <a onclick="openFaq()" class="nav-link faq-btn">FAQ & Panduan</a>
+        </div>
+    </header>
+
+    <!-- POPUP FAQ (MODAL SLIDER) -->
+    <div id="faqModal" class="modal" onclick="closeFaqOutside(event)">
+        <div class="modal-content" id="modalContent">
+            <div class="close-btn" onclick="closeFaq()">X</div>
+            <h2 style="margin-top: 0; margin-bottom: 15px; color: var(--maroon);">FAQ & Panduan</h2>
+            
+            <div class="slider-container">
+                <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+                <div class="slides" id="slidesContainer">
+                    <div class="slide"><img src="Gambar/how to order.jpeg" alt="FAQ 1"></div>
+                    <div class="slide"><img src="Gambar/how to assemble.jpeg" alt="FAQ 2"></div>
+                    <div class="slide"><img src="Gambar/size char.jpeg" alt="FAQ 3"></div>
+                </div>
+                <a class="next" onclick="changeSlide(1)">&#10095;</a>
+            </div>
+
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+            </div>
+        </div>
+    </div>
+
+    <h1>Italian Charm Customizer</h1>
+
+    <div class="app-container">
+       <!-- PENGATURAN GELANG KLASIK -->
+        <div class="setup-container">
+            <div class="setup-classic">
+                <label for="wristSize">Lingkar pergelangan tangan (cm):</label>
+                <input type="number" id="wristSize" value="15" min="1">
+                <button class="btn-classic" onclick="updateBracelet()">Buat Gelang</button>
+                <span class="divider">|</span>
+                <span id="totalText" class="charm-count">Jumlah charm yang diperlukan: 17</span>
+            </div>
+        </div>
+
+       <!-- PREVIEW AREA -->
+<div class="preview-area" style="
+    background-image: url('Gambar/board.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 45px 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+
+">
+    
+    <h1 class="hint" style="
+        color: var(--cream); 
+        font-size: 17px; 
+        margin-bottom: 5px;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.517); 
+    ">
+       📌 Drag atau Tap charm di bawah, lalu Tap ke slot gelang.<br>
+        <span style="
+            color: #402708;
+            text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.296); 
+        ">🗑 Double-Tap slot untuk menghapus.</span>
+    </h1>
+    
+    <div id="braceletBase" style="
+        display: flex;
+        flex-wrap: nowrap; 
+        align-items: center;
+        gap: 0px; 
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding: 15px;
+        width: 100%; 
+        max-width: 100%; 
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch; 
+    ">
+    </div>
+
+    <button class="btn" onclick="downloadBracelet()" style="
+        background-color: var(--cream); 
+        color: var(--maroon); 
+        font-size: 13px; 
+        padding: 10px 15px; 
+        margin-top: 5px; 
+        font-weight: bold; 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); 
+        cursor: pointer;
+    ">
+        ⬇ Download Desain Gelang
+    </button>
+</div>
+      
+        <!-- PILIHAN CHARM DENGAN FILTER KLASIK & SEARCHING -->
+        <div class="selection-area">
+            <div class="filter-search-container">
+                <!-- Fitur Pencarian Samar -->
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔎 Search Charm..." oninput="applyFilters()">
+                </div>
+                
+                <!-- Filter Kategori Elegan -->
+                <div class="category-buttons" id="categoryButtons">
+                    <button class="cat-btn active" onclick="setCategory('All', this)">Semua</button>
+                    <button class="cat-btn" onclick="setCategory('Alloy', this)">Alloy</button>
+                    <button class="cat-btn" onclick="setCategory('Premium', this)">Premium</button>
+                    <button class="cat-btn" onclick="setCategory('Resin', this)">Resin</button>
+                    <button class="cat-btn" onclick="setCategory('Polos', this)">Polos</button>
+                    <button class="cat-btn" onclick="setCategory('Enamel', this)">Enamel</button>
+                </div>
+            </div>
+            
+            <div id="charmOptions"></div>
+        </div>
+
+        <!-- LAYOUT BAWAH -->
+        <div class="bottom-container">
+            <div class="cart-section">
+                <h3>Cart Recommendation List</h3>
+                <br> <p style="font-size: 0.9em; color: #ababab; margin-bottom: 10px;">Checkout via link marketplace (masukkan item satu per satu). Stok tidak <i>real-time</i> (diupdate mingguan).</p>
+                <div id="cartItems" style="flex-grow: 1;">
+                    <p class="hint">Belum ada charm yang dipilih.</p>
+                </div>
+                <div class="cart-total" id="cartTotal">
+                    Estimasi Harga: Rp 0
+                </div>
+
+                <div id="checkoutContainer" style="display: none; margin-top: 25px;">
+                    <p style="font-size: 15px; font-weight: bold; text-align: center; margin-bottom: 10px;">Lanjutkan Pembelian di Marketplace:</p>
+                    <div class="checkout-links">
+                        <a id="linkResin" class="btn btn-" href="https://shopee.co.id/Resin-Y2K-Italian-Charm-Bracelet-Charmigos-i.143582403.26169956302" target="_blank" style="display: none;">Checkout Resin</a>
+                        <a id="linkAlloy" class="btn btn-gold" href="https://shopee.co.id/Italian-Charm-Bracelet-Alloy-Y2K-Charmigos-i.143582403.28822409626" target="_blank" style="display: none;">Checkout Alloy</a>
+                        <a id="linkOther" class="btn btn-gold" href="https://shopee.co.id/charmigos" target="_blank" style="display: none;">Checkout Charm Lainnya</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="note-section" id="orderNoteContainer">
+                <h3>📋 Catatan Pemesanan</h3>
+                <p class="hint">Salin pesan ini ke catatan penjual saat checkout:</p>
+                
+                <div id="orderNoteText" style="background: #f9f9f9; padding: 15px; border: 1px dashed #ccc; border-radius: 8px; font-family: monospace; flex-grow: 1; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; text-align: center;">
+                    <span style='color:#999;'>Susunan charm akan muncul di sini...</span>
+                </div>
+
+                <button class="btn btn-gold" onclick="copyOrderNote()" style="width: 100%; font-size: 14px; padding: 12px;">Salin Catatan</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> 
+    <script src="gambar.js"></script> 
+    
+    <script>
+        let slideIndex = 0;
+
+        function showSlides(n) {
+            const slides = document.getElementById("slidesContainer");
+            const dots = document.getElementsByClassName("dot");
+            
+            if (n >= 3) { slideIndex = 0; } 
+            if (n < 0) { slideIndex = 2; }
+            
+            slides.style.transform = `translateX(${-slideIndex * 100}%)`;
+            
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active-dot", "");
+            }
+            dots[slideIndex].className += " active-dot";
+        }
+
+        function changeSlide(n) { showSlides(slideIndex += n); }
+        function currentSlide(n) { showSlides(slideIndex = n); }
+
+        function openFaq() {
+            document.getElementById('faqModal').style.display = 'flex';
+            showSlides(slideIndex);
+        }
+        function closeFaq() { document.getElementById('faqModal').style.display = 'none'; }
+        function closeFaqOutside(event) { if (event.target.id === 'faqModal') { closeFaq(); } }
+
+        const CHARM_PRICE = 12000;
+        let selectedCharmData = null;
+        const defaultCharm = 'Gambar/Polos.png';
+        let braceletSlotsData = []; 
+
+        function downloadBracelet() {
+            const braceletElement = document.getElementById('braceletBase');
+            html2canvas(braceletElement, {
+                useCORS: true, backgroundColor: "#ffffff", scale: 2 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'desain-gelang-charmigos.png'; 
+                link.href = canvas.toDataURL('image/png');
+                link.click(); 
+            }).catch(err => {
+                alert("Maaf, terjadi kesalahan saat menyimpan gambar. Pastikan internet stabil.");
+                console.error(err);
+            });
+        }
+
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotalContainer = document.getElementById('cartTotal');
+            const linkResin = document.getElementById('linkResin');
+            const linkAlloy = document.getElementById('linkAlloy');
+            const linkOther = document.getElementById('linkOther');
+            const checkoutContainer = document.getElementById('checkoutContainer');
+
+            let itemCounts = {}; let totalCost = 0; let categoriesInCart = new Set(); let totalItems = 0;
+
+            braceletSlotsData.forEach(charm => {
+                if (charm && charm.sku !== 'default') {
+                    if (!itemCounts[charm.sku]) {
+                        itemCounts[charm.sku] = { name: charm.name, qty: 0, category: charm.category };
+                    }
+                    itemCounts[charm.sku].qty++;
+                    totalCost += CHARM_PRICE; totalItems++;
+                    categoriesInCart.add(charm.category);
+                }
+            });
+
+            if (totalItems === 0) {
+                cartItemsContainer.innerHTML = '<p class="hint">Belum ada charm yang dipilih.</p>';
+                checkoutContainer.style.display = 'none';
+            } else {
+                cartItemsContainer.innerHTML = '';
+                for (let sku in itemCounts) {
+                    const item = itemCounts[sku];
+                    const itemCost = (item.qty * CHARM_PRICE).toLocaleString('id-ID');
+                    
+                    let oosText = '';
+                    if (window.globalStockStatus && window.globalStockStatus[sku] === false) {
+                        oosText = ' <span style="color:red; font-size:12px; font-weight:bold;">(Out of Stock)</span>';
+                    }
+
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `<span>${item.qty}x ${item.name}${oosText}</span> <span>Rp ${itemCost}</span>`;
+                    cartItemsContainer.appendChild(div);
+                }
+                
+                checkoutContainer.style.display = 'block';
+                linkResin.style.display = categoriesInCart.has('Resin') ? 'block' : 'none';
+                linkAlloy.style.display = categoriesInCart.has('Alloy') ? 'block' : 'none';
+                const hasOtherCategories = Array.from(categoriesInCart).some(cat => cat !== 'Resin' && cat !== 'Alloy' && cat !== 'Custom');
+                linkOther.style.display = hasOtherCategories ? 'block' : 'none';
+            }
+            cartTotalContainer.innerText = `Estimasi: Rp ${totalCost.toLocaleString('id-ID')}`;
+            
+            if (typeof updateOrderNote === 'function') {
+                updateOrderNote();
+            }
+        }
+
+        function updateBracelet() {
+            const total = parseInt(document.getElementById('wristSize').value) + 2;
+            const base = document.getElementById('braceletBase');
+            document.getElementById('totalText').innerText = `Jumlah charm yang diperlukan: ${total}`;
+            base.innerHTML = ''; 
+            braceletSlotsData = new Array(total).fill(null);
+
+            for (let i = 0; i < total; i++) {
+                const slot = document.createElement('img');
+                slot.className = 'dropzone'; slot.src = defaultCharm; slot.dataset.index = i; 
+                slot.onclick = function() { placeSelectedCharm(this); };
+                slot.ondblclick = function() { removeCharm(this); };
+                base.appendChild(slot);
+            }
+            updateCart();
+        }
+
+        function selectCharm(el) {
+            document.querySelectorAll('.charm-item').forEach(item => item.classList.remove('selected-charm'));
+            el.classList.add('selected-charm');
+            selectedCharmData = { 
+                src: el.src, filter: el.style.filter || 'none',
+                sku: el.dataset.sku, name: el.dataset.name, category: el.dataset.category
+            };
+        }
+
+        function placeSelectedCharm(slot) {
+            if (selectedCharmData) {
+                slot.src = selectedCharmData.src; slot.style.filter = selectedCharmData.filter;
+                const slotIndex = slot.dataset.index;
+                braceletSlotsData[slotIndex] = { ...selectedCharmData };
+                updateCart();
+            }
+        }
+
+        function removeCharm(slot) {
+            slot.src = defaultCharm; slot.style.filter = 'none';
+            const slotIndex = slot.dataset.index;
+            braceletSlotsData[slotIndex] = null;
+            updateCart();
+        }
+
+        interact('.charm-item').draggable({
+            listeners: {
+                start(e) { e.target.style.zIndex = 1000; },
+                move(e) {
+                    const t = e.target;
+                    const x = (parseFloat(t.dataset.x) || 0) + e.dx;
+                    const y = (parseFloat(t.dataset.y) || 0) + e.dy;
+                    t.style.transform = `translate(${x}px, ${y}px)`;
+                    Object.assign(t.dataset, { x, y });
+                },
+                end(e) {
+                    e.target.style.transform = ''; Object.assign(e.target.dataset, { x: 0, y: 0 });
+                }
+            }
+        });
+
+        interact('.dropzone').dropzone({
+            accept: '.charm-item', overlap: 0.5,
+            ondragenter: e => e.target.classList.add('drag-hover'),
+            ondragleave: e => e.target.classList.remove('drag-hover'),
+            ondrop: e => {
+                const slot = e.target; const charm = e.relatedTarget;
+                slot.classList.remove('drag-hover');
+                slot.src = charm.src; slot.style.filter = charm.style.filter || 'none';
+                const slotIndex = slot.dataset.index;
+                braceletSlotsData[slotIndex] = {
+                    sku: charm.dataset.sku, name: charm.dataset.name, category: charm.dataset.category
+                };
+                updateCart();
+            }
+        });
+    </script>
+</body>
+</html>

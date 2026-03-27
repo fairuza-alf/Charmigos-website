@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Charmigos - Home</title>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <style>
+        :root {
+            --maroon: #800000;
+            --red-header: #800000; 
+            --cream: #fdf5e6;
+            --gold: #d4af37;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            font-family: 'Georgia', serif; 
+            /* Gambar Background Utama Web */
+            background: url('Gambar/bg web.png') no-repeat center center/cover;
+            background-color: var(--cream); 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* ========================================= */
+        /* --- HEADER KLASIK & ELEGAN --- */
+        /* ========================================= */
+        .main-header {
+            background-color: var(--maroon);
+            color: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.073);
+            font-family: 'Garamond', 'Georgia', serif;
+        }
+
+        .header-left, .header-right { display: flex; align-items: center; gap: 10px; }
+
+        .header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .header-center img {
+            height: 55px; width: auto; border-radius: 0 !important;
+            object-fit: contain; cursor: pointer; transition: transform 0.3s ease;
+        }
+        .header-center img:hover { transform: scale(1.05); }
+
+        .nav-link {
+            color: var(--cream); text-decoration: none; font-size: 15px;
+            letter-spacing: 1px; padding: 6px 12px; border-radius: 4px;
+            transition: all 0.3s ease; cursor: pointer;
+            /* Tambahan: Shadow agar teks terbaca jelas di background terang */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .nav-link:hover, .nav-link.active { background-color: rgba(253, 245, 230, 0.2); color: white; }
+        .nav-divider { width: 1px; height: 20px; background-color: rgba(253, 245, 230, 0.4); margin: 0 5px; }
+        .message-text { 
+            font-family: 'Garamond', 'Georgia', serif; font-size: 14px; font-style: italic; color: var(--cream); opacity: 0.9; margin-right: 5px; 
+            /* Tambahan: Shadow agar teks terbaca jelas */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .social-icons { display: flex; gap: 15px; align-items: center; margin-right: 10px; }
+        .social-icons a { color: var(--cream); font-size: 20px; display: flex; align-items: center; transition: all 0.3s ease; text-decoration: none; }
+        .social-icons a:hover { color: var(--gold); transform: translateY(-2px); }
+
+        /* ========================================= */
+        /* --- SEKSI 1: KONTEN TENGAH HOME (HERO) --- */
+        /* ========================================= */
+        .home-content {
+            min-height: 100vh; 
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            /* PERBAIKAN: Menghapus transparansi krem, menjadi transparan total */
+            background-color: transparent; 
+            padding-top: 60px; 
+        }
+
+        .center-logo { width: 250px; max-width: 80%; margin-bottom: 30px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); }
+        
+        .social-links { display: flex; gap: 20px; }
+        .social-links a img {
+            width: 40px; height: 40px; border-radius: 50%;
+            transition: transform 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); object-fit: cover;
+        }
+        .social-links a img:hover { transform: scale(1.1); }
+
+        /* ========================================= */
+        /* --- SEKSI 2: GALERI 3 GAMBAR (SNAP SCROLL) --- */
+        /* ========================================= */
+        .gallery-section {
+            padding: 60px 0;
+            background-color: var(--cream);
+            text-align: center;
+            border-top: 2px solid rgba(128, 0, 0, 0.1);
+        }
+
+        .gallery-section h2 {
+            color: var(--maroon);
+            font-family: 'Garamond', 'Georgia', serif;
+            font-size: 32px;
+            margin-bottom: 30px;
+            letter-spacing: 1.5px;
+        }
+
+        .gallery-scroll {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 5%;
+            scroll-snap-type: x mandatory; 
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        
+        .gallery-scroll::-webkit-scrollbar { display: none; }
+
+        .gallery-scroll img {
+            flex: 0 0 calc(33.333% - 14px); 
+            height: 550px; 
+            object-fit: cover; 
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            scroll-snap-align: center; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .gallery-scroll img:hover {
+            transform: translateY(-12px) scale(1.03); 
+            box-shadow: 0 15px 30px rgba(128, 0, 0, 0.25); 
+        }
+
+        /* ========================================= */
+        /* --- SEKSI 3: BANNER BAWAH (2 KOLOM FULL WIDTH) --- */
+        /* ========================================= */
+        .bottom-banner-section {
+            display: flex;
+            width: 100%; 
+            background-color: var(--cream);
+        }
+
+        .bottom-banner-section img {
+            width: 50%; 
+            height: auto;
+            transition: filter 0.3s ease;
+        }
+
+        .bottom-banner-section img:hover {
+            filter: brightness(0.85); 
+            cursor: pointer;
+        }
+
+        /* ========================================= */
+        /* --- POPUP FAQ & RESPONSIVE HP --- */
+        /* ========================================= */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); justify-content: center; align-items: center; }
+        .modal-content { position: relative; background: white; padding: 20px; border-radius: 15px; max-width: 90%; width: 400px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .close-btn { position: absolute; top: -15px; right: -15px; background: var(--maroon); color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; font-weight: bold; cursor: pointer; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3); z-index: 10; }
+        .close-btn:hover { background: #4d0000; }
+        .slider-container { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .slides { display: flex; transition: transform 0.4s ease-in-out; width: 100%; }
+        .slide { min-width: 100%; display: flex; justify-content: center; }
+        .slide img { max-width: 100%; max-height: 60vh; object-fit: contain; border-radius: 10px; }
+        .prev, .next { cursor: pointer; position: absolute; top: 50%; transform: translateY(-50%); width: auto; padding: 10px; color: var(--maroon); font-weight: bold; font-size: 24px; background: rgba(255,255,255,0.8); border-radius: 50%; user-select: none; border: 1px solid var(--maroon); }
+        .next { right: 5px; } .prev { left: 5px; }
+        .prev:hover, .next:hover { background-color: var(--maroon); color: white; }
+        .dots-container { text-align: center; margin-top: 10px; }
+        .dot { cursor: pointer; height: 10px; width: 10px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; transition: 0.3s; }
+        .active-dot, .dot:hover { background-color: var(--maroon); }
+
+        @media (max-width: 768px) {
+            .main-header { padding: 10px 15px; }
+            .header-center { position: absolute; left: 50%; transform: translateX(-50%); margin: 0; }
+            .header-center img { height: 20px; }
+            .nav-divider, .message-text { display: none; }
+            .header-left, .header-right { flex-wrap: nowrap; gap: 5px; }
+            .nav-link { font-size: 10px; padding: 4px; }
+            .social-icons { gap: 5px; margin-right: 0; }
+            .social-icons a { font-size: 14px; }
+            
+            .gallery-scroll img { 
+                flex: 0 0 calc(85% - 10px);
+                height: 350px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-left">
+            <a href="home.html" class="nav-link active">Home</a>
+            <span class="nav-divider"></span>
+            <a href="builder.html" class="nav-link">Custom Charm Bracelet</a>
+        </div>
+        
+        <div class="header-center">
+            <img src="Gambar/logo kotak.png" alt="Logo Charmigos" onclick="window.location.href='home.html'">
+        </div>
+        
+        <div class="header-right">
+            <span class="message-text">Message us if you have any questions:</span>
+            <div class="social-icons">
+                <a href="https://instagram.com/charmigos.id" target="_blank" title="Instagram"><span class="iconify" data-icon="mdi:instagram"></span></a>
+                <a href="https://tiktok.com/charmigos" target="_blank" title="TikTok"><span class="iconify" data-icon="ic:baseline-tiktok"></span></a>
+                <a href="https://shopee.co.id/charmigos" target="_blank" title="Shopee"><span class="iconify" data-icon="simple-icons:shopee"></span></a>
+            </div>
+            <span class="nav-divider"></span>
+            <a onclick="openFaq()" class="nav-link faq-btn">FAQ & Panduan</a>
+        </div>
+    </header>
+
+    <div class="home-content">
+        <img class="center-logo" src="Gambar/logo charmigos.png" alt="Logo Utama">
+        
+        <div class="social-links">
+            <a href="https://shopee.co.id/charmigos" target="_blank">
+                <img src="Gambar/Shopee.jpg" alt="Shopee"> 
+            </a>
+            <a href="https://instagram.com/charmigos.id" target="_blank">
+                <img src="Gambar/instagram.png" alt="Instagram">
+            </a>
+            <a href="https://tiktok.com/charmigos" target="_blank">
+                <img src="Gambar/tiktok.jpg" alt="TikTok">
+            </a>
+        </div>
+    </div>
+
+    <div class="gallery-section">
+        <h2>Our Gallery</h2>
+        <div class="gallery-scroll">
+            <img src="Gambar/gambar 1.HEIC" alt="Galeri 1">
+            <img src="Gambar/gambar 2.JPG" alt="Galeri 2">
+            <img src="Gambar/gambar 3.HEIC" alt="Galeri 3">
+            <img src="Gambar/gambar 4.HEIC" alt="Galeri 4">
+            
+        </div>
+    </div>
+    <div class="bottom-banner-section">
+        <img src="Gambar/how to order.jpeg" alt="Banner Promo Kiri">
+        <img src="Gambar/how to assemble.jpeg" alt="Banner Promo Kanan">
+    </div>
+
+    <div id="faqModal" class="modal" onclick="closeFaqOutside(event)">
+        <div class="modal-content" id="modalContent">
+            <div class="close-btn" onclick="closeFaq()">X</div>
+            <h2 style="margin-top: 0; margin-bottom: 15px; color: var(--maroon); font-family: 'Garamond', serif;">FAQ & Panduan</h2>
+            
+            <div class="slider-container">
+                <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+                <div class="slides" id="slidesContainer">
+                    <div class="slide"><img src="Gambar/how to order.jpeg" alt="FAQ 1"></div>
+                    <div class="slide"><img src="Gambar/how to assemble.jpeg" alt="FAQ 2"></div>
+                    <div class="slide"><img src="Gambar/size char.jpeg" alt="FAQ 3"></div>
+                </div>
+                <a class="next" onclick="changeSlide(1)">&#10095;</a>
+            </div>
+
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGIKA SLIDER FAQ ---
+        let slideIndex = 0;
+
+        function showSlides(n) {
+            const slides = document.getElementById("slidesContainer");
+            const dots = document.getElementsByClassName("dot");
+            
+            if (n >= 3) { slideIndex = 0; }
+            if (n < 0) { slideIndex = 2; }
+            
+            slides.style.transform = `translateX(${-slideIndex * 100}%)`;
+            
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active-dot", "");
+            }
+            dots[slideIndex].className += " active-dot";
+        }
+
+        function changeSlide(n) { showSlides(slideIndex += n); }
+        function currentSlide(n) { showSlides(slideIndex = n); }
+
+        function openFaq() {
+            document.getElementById('faqModal').style.display = 'flex';
+            showSlides(slideIndex);
+        }
+
+        function closeFaq() { document.getElementById('faqModal').style.display = 'none'; }
+
+        function closeFaqOutside(event) {
+            if (event.target.id === 'faqModal') { closeFaq(); }
+        }
+
+        // OTOMATIS BUKA FAQ SAAT HALAMAN HOME DIMUAT
+        window.onload = function() {
+            openFaq();
+        };
+    </script>
+</body>
+</html>
