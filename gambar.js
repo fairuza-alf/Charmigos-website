@@ -187,7 +187,7 @@ let currentCategory = 'All';
 async function loadStockData() {
     const container = document.getElementById('charmOptions');
     if (!container) return;
-    container.innerHTML = '<p style="font-weight: normal; color: #800000; font-size: 15px; font-family: \'Garamond\', serif;">Memuat pesona...</p>';
+    container.innerHTML = '<p style="font-weight: normal; color: #800000; font-size: 15px; font-family: \'Garamond\', serif;">Memuat charm...</p>';
 
     const normalizeText = (text) => text.toLowerCase().replace(/[^a-z0-9]/g, '');
 
