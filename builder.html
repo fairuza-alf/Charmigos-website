@@ -641,14 +641,20 @@
                     <input type="text" id="searchInput" placeholder="🔎 Search Charm..." oninput="applyFilters()">
                 </div>
                 
-                <!-- Filter Kategori Elegan -->
                 <div class="category-buttons" id="categoryButtons">
                     <button class="cat-btn active" onclick="setCategory('All', this)">Semua</button>
-                    <button class="cat-btn" onclick="setCategory('Alloy', this)">Alloy</button>
+                    <button class="cat-btn" onclick="setCategory('Custom', this)">Custom</button> <button class="cat-btn" onclick="setCategory('Alloy', this)">Alloy</button>
                     <button class="cat-btn" onclick="setCategory('Premium', this)">Premium</button>
                     <button class="cat-btn" onclick="setCategory('Resin', this)">Resin</button>
                     <button class="cat-btn" onclick="setCategory('Polos', this)">Polos</button>
                     <button class="cat-btn" onclick="setCategory('Enamel', this)">Enamel</button>
+                </div>
+                <div class="custom-upload-container" style="margin-top: 20px; text-align: center; width: 100%;">
+                    <input type="file" id="customCharmInput" accept="image/*" style="display: none;" onchange="handleCustomCharmUpload(event)">
+                    <button class="btn btn-gold" onclick="document.getElementById('customCharmInput').click()" style="padding: 8px 20px; font-size: 14px; border-radius: 20px;">
+                        📸 Upload Custom Charm
+                    </button>
+                    <p class="hint" style="margin-top: 5px; font-size: 12px;">*Gunakan gambar rasio 5:9 (usahakan landscape).</p>
                 </div>
             </div>
             
@@ -838,6 +844,109 @@
             braceletSlotsData[slotIndex] = null;
             updateCart();
         }
+
+       // --- FITUR UPLOAD & CROP CUSTOM CHARM ---
+function handleCustomCharmUpload(event) {
+    // HARUS menggunakan di sini
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        
+        const userImg = new Image();
+        // Tangani jika ada error saat memuat gambar user
+        userImg.onerror = function() {
+            alert("Gagal memuat gambar yang diupload.");
+        };
+        
+        userImg.onload = function() {
+            const baseCharm = new Image();
+            baseCharm.src = 'Gambar/Polos.png'; 
+            
+            // Tangani jika gambar Polos.png tidak ditemukan
+            baseCharm.onerror = function() {
+                alert("Gambar background (Gambar/Polos.png) tidak ditemukan! Pastikan path-nya benar.");
+            };
+            
+            baseCharm.onload = function() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    canvas.width = baseCharm.width;
+                    canvas.height = baseCharm.height;
+
+                    ctx.drawImage(baseCharm, 0, 0, canvas.width, canvas.height);
+
+                    const targetRatio = 9 / 5;
+                    let sWidth = userImg.width;
+                    let sHeight = userImg.height;
+                    let sx = 0, sy = 0;
+
+                    if (sWidth / sHeight > targetRatio) {
+                        let newWidth = sHeight * targetRatio;
+                        sx = (sWidth - newWidth) / 2;
+                        sWidth = newWidth;
+                    } else {
+                        let newHeight = sWidth / targetRatio;
+                        sy = (sHeight - newHeight) / 2;
+                        sHeight = newHeight;
+                    }
+
+                    const dWidth = canvas.width * 0.85; 
+                    const dHeight = dWidth / targetRatio;
+                    const dx = (canvas.width - dWidth) / 2;
+                    const dy = (canvas.height - dHeight) / 2;
+
+                    ctx.drawImage(userImg, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+
+                    const finalImageSrc = canvas.toDataURL('image/png');
+                    const customSku = 'custom-' + Date.now();
+                    const customCharm = {
+                        sku: customSku,
+                        category: 'Custom',
+                        name: 'Custom Design',
+                        label: 'Your Design',
+                        url: finalImageSrc
+                    };
+
+                    if (!Array.isArray(window.customCharmsData)) {
+                        window.customCharmsData = [];
+                    }
+                    window.customCharmsData.unshift(customCharm);
+                    
+                    const customBtn = document.querySelector('.cat-btn[onclick*="Custom"]');
+                    if (typeof setCategory === "function" && customBtn) {
+                        setCategory('Custom', customBtn);
+                    } else if (typeof applyFilters === "function") {
+                        applyFilters();
+                    }
+
+                    requestAnimationFrame(() => {
+                        const uploadedCharm = document.querySelector(`.charm-item[data-sku="${customSku}"]`);
+                        if (uploadedCharm) {
+                            selectCharm(uploadedCharm);
+                        }
+                    });
+
+                    if (typeof updateCart === "function") {
+                        updateCart();
+                    }
+
+                    event.target.value = ''; 
+                } catch (error) {
+                    console.error("Canvas Error:", error);
+                    alert("Terjadi kesalahan sistem (Canvas). Jika Anda membuka file ini langsung (file://), gunakan Local Server.");
+                }
+            };
+        };
+        userImg.src = e.target.result;
+    };
+    
+    reader.readAsDataURL(file)
+
+}
 
         interact('.charm-item').draggable({
             listeners: {

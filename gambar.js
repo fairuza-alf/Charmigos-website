@@ -178,6 +178,7 @@ const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1v
 
 window.globalStockStatus = {}; 
 let currentCategory = 'All';
+window.customCharmsData = window.customCharmsData || [];
 
 // ==========================================
 // 3. LOGIKA FILTER, SEARCH, & RENDERING
@@ -237,8 +238,9 @@ function applyFilters() {
     const searchInputEl = document.getElementById('searchInput');
     const searchQuery = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
     const normalizeText = (text) => text.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const allCharms = [...window.customCharmsData, ...charmsData];
 
-    charmsData.forEach((charm) => {
+    allCharms.forEach((charm) => {
         const matchCategory = (currentCategory === 'All' || charm.category === currentCategory);
         const charmNameLower = charm.name.toLowerCase();
         const matchSearch = charmNameLower.includes(searchQuery);
@@ -269,6 +271,9 @@ function applyFilters() {
 
             img.className = 'charm-item'; 
             if (isOutOfStock) { img.title = `${charm.name} (STOK HABIS)`; }
+            if (charm.filter) {
+                img.style.filter = charm.filter;
+            }
             
             img.onclick = function() { 
                 if (typeof selectCharm === 'function') { selectCharm(this); }
@@ -280,7 +285,7 @@ function applyFilters() {
             nameLabel.className = 'charm-name-label';
             nameLabel.style.fontFamily = "'Garamond', 'Georgia', serif";
             nameLabel.style.fontWeight = "normal";
-            nameLabel.innerText = charm.name;
+            nameLabel.innerText = charm.label || charm.name;
             wrapper.appendChild(nameLabel);
 
             container.appendChild(wrapper);
@@ -288,7 +293,7 @@ function applyFilters() {
     });
 
     if (container.innerHTML === '') {
-        container.innerHTML = `<p style="color: var(--maroon); font-family: 'Garamond', serif; font-style: italic;">Pesona "${searchQuery}" belum ditemukan.</p>`;
+        container.innerHTML = `<p style="color: var(--maroon); font-family: 'Garamond', serif; font-style: italic;">charm"${searchQuery}" belum ditemukan.</p>`;
     }
 }
 
